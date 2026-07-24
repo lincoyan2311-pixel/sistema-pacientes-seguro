@@ -1,0 +1,14 @@
+bandit==1.9.4
+colorama==0.4.6
+coverage==7.15.2
+iniconfig==2.3.0
+markdown-it-py==4.2.0
+mdurl==0.1.2
+packaging==26.2
+pluggy==1.6.0
+Pygments==2.20.0
+pytest==8.4.2
+pytest-cov==7.0.0
+PyYAML==6.0.3
+rich==15.0.0
+stevedore==5.9.0
