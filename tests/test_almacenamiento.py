@@ -45,3 +45,11 @@ def test_detectar_archivo_modificado(
 
     with pytest.raises(ErrorIntegridadDatos):
         almacenamiento.verificar_integridad()
+
+
+def test_verificar_integridad_sin_archivo(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    usar_directorio_temporal(monkeypatch, tmp_path)
+
+    assert almacenamiento.verificar_integridad() is None

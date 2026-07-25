@@ -1,5 +1,7 @@
 """Pruebas de anonimización y seudonimización."""
 
+from collections.abc import Callable
+
 import pytest
 
 from privacidad import (
@@ -40,6 +42,22 @@ def test_anonimizar_correo() -> None:
     assert anonimizar_correo("ana.perez@example.com") == (
         "a********@example.com"
     )
+
+
+@pytest.mark.parametrize(
+    ("funcion", "valor"),
+    [
+        (anonimizar_nombre, ""),
+        (anonimizar_rut, "12345678"),
+        (anonimizar_rut, "-"),
+        (anonimizar_correo, "correo-invalido"),
+        (anonimizar_correo, "@"),
+    ],
+)
+def test_anonimizacion_rechaza_datos_incompletos(
+    funcion: Callable[[str], str], valor: str
+) -> None:
+    assert funcion(valor) == "NO DISPONIBLE"
 
 
 def test_vista_no_incluye_diagnostico() -> None:
