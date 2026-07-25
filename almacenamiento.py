@@ -53,10 +53,10 @@ def guardar_hash() -> None:
         ) from error
 
 
-def verificar_integridad() -> bool:
+def verificar_integridad() -> None:
     """Compara el SHA-256 actual con el resumen guardado."""
     if not ARCHIVO_PACIENTES.exists():
-        return True
+        return
     if not ARCHIVO_HASH.exists():
         raise ErrorIntegridadDatos(
             "Existe el archivo de pacientes, pero no su hash."
@@ -76,9 +76,6 @@ def verificar_integridad() -> bool:
             "La integridad de los datos no pudo comprobarse. "
             "El archivo podría haber sido modificado."
         )
-    return True
-
-
 def cargar_pacientes() -> list[dict[str, Any]]:
     """Carga los pacientes; si no hay archivo, devuelve una lista vacía."""
     preparar_directorio()
@@ -104,12 +101,14 @@ def cargar_pacientes() -> list[dict[str, Any]]:
     return [elemento for elemento in contenido if isinstance(elemento, dict)]
 
 
-def escritura_atomica(ruta: Path, contenido: str) -> None:
+def escritura_atomica(contenido: str) -> None:
     """Escribe en un archivo temporal antes de reemplazar el original."""
-    ruta_temporal = ruta.with_suffix(ruta.suffix + ".tmp")
+    ruta_temporal = ARCHIVO_PACIENTES.with_suffix(
+        ARCHIVO_PACIENTES.suffix + ".tmp"
+    )
     try:
         ruta_temporal.write_text(contenido, encoding="utf-8")
-        os.replace(ruta_temporal, ruta)
+        os.replace(ruta_temporal, ARCHIVO_PACIENTES)
     except OSError as error:
         try:
             if ruta_temporal.exists():
@@ -130,5 +129,5 @@ def guardar_pacientes(pacientes: list[dict[str, Any]]) -> None:
         raise ErrorAlmacenamiento(
             "Los datos no pueden convertirse a JSON."
         ) from error
-    escritura_atomica(ARCHIVO_PACIENTES, contenido)
+    escritura_atomica(contenido)
     guardar_hash()

@@ -5,6 +5,7 @@ import string
 
 
 ALFABETO_SEGURO = string.ascii_uppercase + string.digits
+VALOR_NO_DISPONIBLE = "NO DISPONIBLE"
 
 
 def generar_id_paciente(longitud: int = 12) -> str:
@@ -20,7 +21,7 @@ def generar_id_paciente(longitud: int = 12) -> str:
 def anonimizar_nombre(nombre: str) -> str:
     """Deja visible solamente la primera letra de cada palabra."""
     if not isinstance(nombre, str) or not nombre.strip():
-        return "NO DISPONIBLE"
+        return VALOR_NO_DISPONIBLE
 
     partes_anonimizadas = []
     for parte in nombre.strip().split():
@@ -34,20 +35,20 @@ def anonimizar_nombre(nombre: str) -> str:
 def anonimizar_rut(rut: str) -> str:
     """Oculta el cuerpo del RUT y conserva el dígito verificador."""
     if not isinstance(rut, str) or "-" not in rut:
-        return "NO DISPONIBLE"
+        return VALOR_NO_DISPONIBLE
     cuerpo, digito_verificador = rut.rsplit("-", maxsplit=1)
     if not cuerpo or not digito_verificador:
-        return "NO DISPONIBLE"
+        return VALOR_NO_DISPONIBLE
     return f"{'*' * len(cuerpo)}-{digito_verificador}"
 
 
 def anonimizar_correo(correo: str) -> str:
     """Oculta el usuario del correo, excepto su primera letra."""
     if not isinstance(correo, str) or "@" not in correo:
-        return "NO DISPONIBLE"
+        return VALOR_NO_DISPONIBLE
     usuario, dominio = correo.rsplit("@", maxsplit=1)
     if not usuario or not dominio:
-        return "NO DISPONIBLE"
+        return VALOR_NO_DISPONIBLE
     usuario_oculto = "*" if len(usuario) == 1 else usuario[0] + "*" * (len(usuario) - 1)
     return f"{usuario_oculto}@{dominio}"
 
@@ -57,10 +58,12 @@ def crear_vista_anonimizada(
 ) -> dict[str, object]:
     """Crea una copia para reportes sin incluir el diagnóstico."""
     return {
-        "id_paciente": paciente.get("id_paciente", "NO DISPONIBLE"),
+        "id_paciente": paciente.get("id_paciente", VALOR_NO_DISPONIBLE),
         "nombre": anonimizar_nombre(str(paciente.get("nombre", ""))),
         "rut": anonimizar_rut(str(paciente.get("rut", ""))),
-        "edad": paciente.get("edad", "NO DISPONIBLE"),
+        "edad": paciente.get("edad", VALOR_NO_DISPONIBLE),
         "correo": anonimizar_correo(str(paciente.get("correo", ""))),
-        "fecha_registro": paciente.get("fecha_registro", "NO DISPONIBLE"),
+        "fecha_registro": paciente.get(
+            "fecha_registro", VALOR_NO_DISPONIBLE
+        ),
     }

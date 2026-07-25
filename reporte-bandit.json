@@ -1,6 +1,6 @@
 {
   "errors": [],
-  "generated_at": "2026-07-24T04:30:46Z",
+  "generated_at": "2026-07-25T01:24:27Z",
   "metrics": {
     ".\\almacenamiento.py": {
       "CONFIDENCE.HIGH": 0,
@@ -11,7 +11,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 111,
+      "loc": 112,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -37,7 +37,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 52,
+      "loc": 55,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -63,7 +63,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 470,
+      "loc": 474,
       "nosec": 0,
       "skipped_tests": 0
     }

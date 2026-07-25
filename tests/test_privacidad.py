@@ -18,7 +18,9 @@ def test_generar_id_paciente() -> None:
 
 
 def test_ids_deben_ser_distintos() -> None:
-    assert generar_id_paciente() != generar_id_paciente()
+    primer_id = generar_id_paciente()
+    segundo_id = generar_id_paciente()
+    assert primer_id != segundo_id
 
 
 def test_generar_id_rechaza_longitud_invalida() -> None:
